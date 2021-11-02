@@ -6,6 +6,9 @@ using MinimalApi.PetersStaticSingelton;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddTransient<IHandler<string, string>, TestHandler>();
+builder.Services.AddTransient<IHandler<int, string>, AnotherHandler>();
+
+builder.Services.AddTransient<IHandler<CommandToHandle, ResponseToCommand>, AHanlderWithModels>();
 builder.Services.AddSingleton<PetersSingelton>();
 
 // Configure JSON options
@@ -58,6 +61,12 @@ app.MapGet("v1/handler/{name}", (string name, [FromServices] IHandler<string, st
     .WithGroupName("v1");
 
 app.MapGet("v1/usingPetersSingelton/{name}", (string name, [FromServices] PetersSingelton peterSingelton) => peterSingelton.PetersNotStaticStaticMethod(name))
+    .WithGroupName("v1");
+
+app.MapGet("v1/anotherhalder/{number}", (int number, [FromServices] IHandler<int, string> anotherHandler) => anotherHandler.Handle(number))
+    .WithGroupName("v1");
+
+app.MapPost("v1/handler-with-models", (CommandToHandle command, [FromServices] IHandler<CommandToHandle, ResponseToCommand> handlerWithModels) => handlerWithModels.Handle(command))
     .WithGroupName("v1");
 
 app.MapGet("/noshow", () => { })
