@@ -4,10 +4,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting;
 using MinimalApi.Handlers;
 using MinimalApi.Models;
+using MinimalApi.PetersStaticSingelton;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddTransient<ITestHandler, TestHandler>();
+builder.Services.AddSingleton<PetersSingelton>();
 
 // Configure JSON options
 builder.Services.Configure<JsonOptions>(options =>
@@ -56,6 +58,9 @@ app.MapPost("v2/hello/{name}", (string name, string thisIsFromQuery, TestRequest
     .WithGroupName("v2");
 
 app.MapGet("v1/handler/{name}", (string name, [FromServices] ITestHandler handler) => handler.Handle(name))
+    .WithGroupName("v1");
+
+app.MapGet("v1/usingPetersSingelton/{name}", (string name, [FromServices] PetersSingelton peterSingelton) => peterSingelton.PetersNotStaticStaticMethod(name))
     .WithGroupName("v1");
 
 app.MapGet("/noshow", () => { })
