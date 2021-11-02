@@ -1,6 +1,6 @@
 ﻿namespace MinimalApi.Handlers
 {
-    public class TestHandler : ITestHandler
+    public class TestHandler : IHandler<string, string>
     {
         private readonly ILogger<TestHandler> _logger;
 

@@ -1,14 +1,11 @@
-﻿using System;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Hosting;
+﻿using Microsoft.AspNetCore.Mvc;
 using MinimalApi.Handlers;
 using MinimalApi.Models;
 using MinimalApi.PetersStaticSingelton;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddTransient<ITestHandler, TestHandler>();
+builder.Services.AddTransient<IHandler<string, string>, TestHandler>();
 builder.Services.AddSingleton<PetersSingelton>();
 
 // Configure JSON options
@@ -57,7 +54,7 @@ app.MapGet("v1/hello/{name}", (string name, string thisIsFromQuery) =>
 app.MapPost("v2/hello/{name}", (string name, string thisIsFromQuery, TestRequest testRequest) => $"Hello from route {name}! Hello from query {thisIsFromQuery}! Hello from body {testRequest.Body}")
     .WithGroupName("v2");
 
-app.MapGet("v1/handler/{name}", (string name, [FromServices] ITestHandler handler) => handler.Handle(name))
+app.MapGet("v1/handler/{name}", (string name, [FromServices] IHandler<string, string> handler) => handler.Handle(name))
     .WithGroupName("v1");
 
 app.MapGet("v1/usingPetersSingelton/{name}", (string name, [FromServices] PetersSingelton peterSingelton) => peterSingelton.PetersNotStaticStaticMethod(name))

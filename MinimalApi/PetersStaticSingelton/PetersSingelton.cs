@@ -4,9 +4,9 @@ namespace MinimalApi.PetersStaticSingelton
 {
     public class PetersSingelton
     {
-        private readonly ITestHandler _testHandler;
+        private readonly IHandler<string, string> _testHandler;
 
-        public PetersSingelton(ITestHandler testHandler)
+        public PetersSingelton(IHandler<string, string> testHandler)
         {
             _testHandler = testHandler;
         }
