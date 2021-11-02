@@ -54,7 +54,7 @@ app.MapGet("v1/hello/{name}", (string name, string thisIsFromQuery) =>
 .WithGroupName("v1")
 .Produces(400).Produces<string>(200); //Describe result along with http status code
 
-app.MapPost("v2/hello/{name}", (string name, string thisIsFromQuery, TestRequest testRequest) => $"Hello from route {name}! Hello from query {thisIsFromQuery}! Hello from body {testRequest.Body}")
+app.MapPost("v2/hello/{name}", (string name, string thisIsFromQuery, TestRequest thisIsFromBody) => $"Hello from route {name}! Hello from query {thisIsFromQuery}! Hello from body {thisIsFromBody.Body}")
     .WithGroupName("v2");
 
 app.MapGet("v1/handler/{name}", (string name, [FromServices] IHandler<string, string> handler) => handler.Handle(name))
@@ -66,7 +66,7 @@ app.MapGet("v1/usingPetersSingelton/{name}", (string name, [FromServices] Peters
 app.MapGet("v1/anotherhalder/{number}", (int number, [FromServices] IHandler<int, string> anotherHandler) => anotherHandler.Handle(number))
     .WithGroupName("v1");
 
-app.MapPost("v1/handler-with-models", (CommandToHandle command, [FromServices] IHandler<CommandToHandle, ResponseToCommand> handlerWithModels) => handlerWithModels.Handle(command))
+app.MapPost("v1/handler-with-models", (CommandToHandle thisIsFromBody, [FromServices] IHandler<CommandToHandle, ResponseToCommand> handlerWithModels) => handlerWithModels.Handle(thisIsFromBody))
     .WithGroupName("v1");
 
 app.MapGet("/noshow", () => { })
