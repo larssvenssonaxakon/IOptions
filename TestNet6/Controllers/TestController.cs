@@ -34,5 +34,14 @@ namespace TestNet6.Controllers
 
             };
         }
+
+        [HttpGet]
+        public IEnumerable<string> GetSubsection([FromServices] IOptions<SubSettings> options)
+        {
+            return new List<string>()
+            {
+                $"Option: {options.Value.MySubSetting}"
+            };
+        }
     }
 }

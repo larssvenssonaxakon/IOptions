@@ -3,7 +3,8 @@ using TestNet6;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var appSettings = builder.AddAppSettings();
+var appSettings = builder.AddAppSettingsSection(new AppSettings());
+var subSettings = builder.AddAppSettingsSection(new SubSettings());
 
 builder.Services.AddControllers().AddNewtonsoftJson();
 builder.Services.AddSwaggerGen(c =>
