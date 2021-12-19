@@ -35,7 +35,7 @@ namespace TestNet6.Controllers
             };
         }
 
-        [HttpGet]
+        [HttpGet("asdf")]
         public IEnumerable<string> GetSubsection([FromServices] IOptions<SubSettings> options)
         {
             return new List<string>()

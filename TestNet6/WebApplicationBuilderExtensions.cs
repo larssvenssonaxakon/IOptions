@@ -8,18 +8,18 @@ namespace TestNet6
         /// Configure appsettings and return instance.
         /// </summary>
         /// <param name="builder"></param>
-        /// <param name="settingsSection"></param>
+        /// <param name="sectionName"></param>
         /// <returns>AppSettings</returns>
         /// <exception cref="ArgumentNullException"></exception>
-        public static IAppSetting AddAppSettingsSection<T>(this WebApplicationBuilder builder, T settingsSection) where T : AppSettingsBase
+        public static T AddAppSettingsSection<T>(this WebApplicationBuilder builder, string sectionName) where T : class
         {
             if (builder == null) throw new ArgumentNullException(nameof(builder));
 
-            var appSettingsSection = builder.Configuration.GetSection(settingsSection.SectionName());
+            var appSettingsSection = builder.Configuration.GetSection(sectionName);
             builder.Services.Configure<T>(appSettingsSection);
             var appSettings = appSettingsSection.Get<T>();
 
-            if (appSettings == null) throw new ArgumentException(nameof(T));
+            if (appSettings == null) throw new ArgumentException(nameof(appSettings));
 
             return appSettings;
         }
