@@ -1,10 +1,13 @@
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using TestNet6;
 
 var builder = WebApplication.CreateBuilder(args);
 
 var appSettings = builder.AddAppSettingsSection<AppSettings>(AppSettings.SectionName);
-var subSettings = builder.AddAppSettingsSection<SubSettings>(SubSettings.SectionName);
+builder.AddAppSettingsSection<SubSettings>(SubSettings.SectionName);
 
 builder.Services.AddControllers().AddNewtonsoftJson();
 builder.Services.AddSwaggerGen(c =>
